@@ -8,18 +8,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 Task = some_lame_dependancy_here(db)['Task'] # how to get rid of this :/
 manager = APIManager(app, flask_sqlalchemy_db=db)
-manager.create_api(Task, methods=['GET', 'POST', 'PUT'])
+manager.create_api(Task, methods=['GET', 'POST', 'PUT', 'DELETE'])
 
 @app.route('/')
 def index():
-    tasks = Task.query.all()
+    tasks = Task.query.order_by(Task.order).all()
     tasks_dict = map(helpers.to_dict, tasks)
     return render_template('index.html', tasks=tasks, tasks_dict=tasks_dict)
 
 if __name__ == '__main__':
-    debug = True
+    app.debug = True
     
     db.create_all()
-    app.run(debug=debug)
+    app.run(host='0.0.0.0')
 
 

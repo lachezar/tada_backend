@@ -8,9 +8,10 @@ def some_lame_dependancy_here(db):
         done = db.Column(db.Boolean)
         order = db.Column(db.Integer)
 
-        def __init__(self, title=None):
+        def __init__(self, title, done, order):
             self.title = title
-            self.done = False
+            self.done = done
+            self.order = order
 
         def __repr__(self):
             return '<Task %r>' % self.title

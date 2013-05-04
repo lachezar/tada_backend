@@ -10,12 +10,14 @@ from itertools import imap, izip
 from models import some_lame_dependancy_here
 
 app = Flask(__name__)
-if os.environ['DATABASE_URL']:
+run_config = dict()
+if os.environ['HEROKU_POSTGRESQL_AMBER_URL']:
     # heroku
-    app.debug = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+    run_config['debug'] = False
+    run_config['port'] = os.environ['PORT']
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_AMBER_URL']
 else:
-    app.debug = True
+    run_config['debug'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 Task = some_lame_dependancy_here(db)['Task'] # how to get rid of this :/
@@ -53,6 +55,6 @@ def index():
 
 if __name__ == '__main__':
     db.create_all()
-    app.run(host='0.0.0.0')
+    app.run(**run_config)
 
 

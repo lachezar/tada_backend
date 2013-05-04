@@ -19,7 +19,8 @@ if os.environ.get('HEROKU_POSTGRESQL_AMBER_URL'):
 else:
     run_config['debug'] = True
     app = Flask(__name__, static_folder='devstatic', template_folder='devtemplates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_AMBER_URL']
+
 db = SQLAlchemy(app)
 Task = some_lame_dependancy_here(db)['Task'] # how to get rid of this :/
 manager = APIManager(app, flask_sqlalchemy_db=db)

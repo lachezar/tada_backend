@@ -30,7 +30,7 @@ def test():
     db.session.add(t)
     db.session.commit()
     tasks = Task.query.all()
-    return 'hello world! -> ' + tasks
+    return 'hello world! -> ' + repr(tasks)
 
 @app.route('/')
 def index():

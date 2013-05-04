@@ -2,3 +2,4 @@ Flask
 Flask-restless
 SQLAlchemy
 Flask-SQLAlchemy
+gunicorn

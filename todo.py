@@ -26,9 +26,10 @@ manager.create_api(Task, methods=['GET', 'POST', 'PUT', 'DELETE'])
 
 @app.route('/test')
 def test():
+    db.create_all()
     t = Task('hi', False, 1)
-    db.session.add(t)
-    db.session.commit()
+    #db.session.add(t)
+    #db.session.commit()
     tasks = Task.query.all()
     return 'hello world! -> ' + repr(tasks)
 

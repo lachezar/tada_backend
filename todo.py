@@ -26,7 +26,11 @@ manager.create_api(Task, methods=['GET', 'POST', 'PUT', 'DELETE'])
 
 @app.route('/test')
 def test():
-    return 'hello world!'
+    t = Task('hi', False, 1)
+    db.session.add(t)
+    db.session.commit()
+    tasks = Task.query.all()
+    return 'hello world! -> ' + tasks
 
 @app.route('/')
 def index():

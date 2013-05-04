@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restless import APIManager, helpers
@@ -8,11 +10,24 @@ from itertools import imap, izip
 from models import some_lame_dependancy_here
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+run_config = dict()
+if os.environ.get('HEROKU_POSTGRESQL_AMBER_URL'):
+    # heroku
+    run_config['debug'] = True
+    run_config['port'] = os.environ['PORT']
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_AMBER_URL']
+else:
+    run_config['debug'] = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 Task = some_lame_dependancy_here(db)['Task'] # how to get rid of this :/
 manager = APIManager(app, flask_sqlalchemy_db=db)
 manager.create_api(Task, methods=['GET', 'POST', 'PUT', 'DELETE'])
+
+@app.route('/test')
+def test():
+    db.create_all()
+    return 'hello world! -> ' + repr(Task.query.all())
 
 @app.route('/')
 def index():
@@ -44,9 +59,7 @@ def index():
     return render_template('index.html', tasks=sorted_tasks_dict)
 
 if __name__ == '__main__':
-    app.debug = True
-    
     db.create_all()
-    app.run(host='0.0.0.0')
+    app.run(**run_config)
 
 

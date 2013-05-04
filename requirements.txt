@@ -2,3 +2,5 @@ Flask
 Flask-restless
 SQLAlchemy
 Flask-SQLAlchemy
+psycopg2
+gunicorn

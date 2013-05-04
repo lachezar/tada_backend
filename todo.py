@@ -24,6 +24,10 @@ Task = some_lame_dependancy_here(db)['Task'] # how to get rid of this :/
 manager = APIManager(app, flask_sqlalchemy_db=db)
 manager.create_api(Task, methods=['GET', 'POST', 'PUT', 'DELETE'])
 
+@app.route('/test')
+def test():
+    return 'hello world!'
+
 @app.route('/')
 def index():
     tasks = Task.query.all()

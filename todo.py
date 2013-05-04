@@ -11,9 +11,9 @@ from models import some_lame_dependancy_here
 
 app = Flask(__name__)
 run_config = dict()
-if os.environ['HEROKU_POSTGRESQL_AMBER_URL']:
+if os.environ.get('HEROKU_POSTGRESQL_AMBER_URL'):
     # heroku
-    run_config['debug'] = False
+    run_config['debug'] = True
     run_config['port'] = os.environ['PORT']
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['HEROKU_POSTGRESQL_AMBER_URL']
 else:

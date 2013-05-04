@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restless import APIManager, helpers
@@ -8,7 +10,13 @@ from itertools import imap, izip
 from models import some_lame_dependancy_here
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+if os.environ['DATABASE_URL']:
+    # heroku
+    app.debug = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+else:
+    app.debug = True
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 db = SQLAlchemy(app)
 Task = some_lame_dependancy_here(db)['Task'] # how to get rid of this :/
 manager = APIManager(app, flask_sqlalchemy_db=db)
@@ -44,8 +52,6 @@ def index():
     return render_template('index.html', tasks=sorted_tasks_dict)
 
 if __name__ == '__main__':
-    app.debug = True
-    
     db.create_all()
     app.run(host='0.0.0.0')
 

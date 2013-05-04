@@ -6,12 +6,12 @@ def some_lame_dependancy_here(db):
         id = db.Column(db.Integer, primary_key=True)
         title = db.Column(db.Text)
         done = db.Column(db.Boolean)
-        order = db.Column(db.Integer)
+        next_id = db.Column(db.Integer)
 
-        def __init__(self, title, done, order):
+        def __init__(self, title, done, next_id):
             self.title = title
             self.done = done
-            self.order = order
+            self.next_id = next_id
 
         def __repr__(self):
             return '<Task %r>' % self.title

@@ -4,8 +4,8 @@ from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restless import APIManager, helpers
 
-from operator import attrgetter
-from itertools import imap, izip
+from operator import attrgetter, itemgetter
+from itertools import imap, izip, ifilterfalse
 
 from models import some_lame_dependancy_here
 
@@ -32,11 +32,13 @@ def test():
     db.create_all()
     return 'hello world! -> ' + repr(Task.query.all())
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
+    # the actual order of the task is done via "linked list"-like structure
     tasks = Task.query.all()
     
     sorted_tasks_dict = []
+    remaining = 0
     if len(tasks):
     
         ids = set(imap(attrgetter('id'), tasks))
@@ -67,8 +69,16 @@ def index():
                 sorted_tasks.append(lookup[i])
 
             sorted_tasks_dict = map(helpers.to_dict, sorted_tasks)
+            
+        remaining = len(list(ifilterfalse(itemgetter('done'), sorted_tasks_dict)))
         
-    return render_template('index.html', tasks=sorted_tasks_dict)
+    return render_template('index.html', tasks=sorted_tasks_dict, remaining=remaining)
+    
+@app.route('/api/task/complete-all', methods=['PATCH'])
+def completeAll():
+    Task.query.update({'done': True})
+    db.session.commit()
+    return ''
 
 if __name__ == '__main__':
     db.create_all()

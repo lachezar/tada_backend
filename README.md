@@ -16,6 +16,7 @@ Deploy to Heroku
 1. Clone [Tada](https://github.com/lucho870601/tada) and [Tada Backend](https://github.com/lucho870601/tada_backend) so that their directories are in the same main directory.
 2. Get in the Tada folder and run `grunt heroku` which will copy all assets and html from the frontend in the backend.
 3. Get in the Tada Backend folder and commit the changes (newly arrived assets and html) and then push to heroku `git push heroku master`.
+4. Go to [http://ta-da.herokuapp.com/test](http://ta-da.herokuapp.com/test) to setup the database.
 
     or
 

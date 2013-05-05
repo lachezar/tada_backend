@@ -16,29 +16,41 @@
     </head>
     <body>
         <div class="container">
-            <div class="hero-unit">
+            <header>
                 <h1>Tada</h1>
-                <input id="new-todo" type="text" placeholder="What needs to be done?" />
-                <button class="add-button">Add task</button>
-                <p>Your tasks are:</p>
-                <ul id="task-list">
-                    {% for task in tasks %}
-                    <li data-id="{{ task.id }}" {%- if task.done -%}class="done"{% endif %}>
-                        <div class="view">
-                            <input class="toggle" type="checkbox" {%- if task.done -%}checked="checked"{% endif %}/>
-                            <label class="title">{{ task.title }}</label>
-                            <span class="draggable"></span>
-                        </div>
-                        <input class="edit" type="text" value="{{ task.title }}" />
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+            </header>
+            <input id="new-todo" type="text" placeholder="What needs to be done?" />
+            <button class="add-button">Add task</button>
+            <ul id="task-list">
+                {% for task in tasks %}
+                <li data-id="{{ task.id }}" {%- if task.done -%}class="done"{% endif %}>
+                    <div class="view">
+                        <input class="toggle" type="checkbox" {%- if task.done -%}checked="checked"{% endif %}/>
+                        <label class="title" title="click to edit">{{ task.title }}</label>
+                        <span class="draggable" title="drag to change order"></span>
+                    </div>
+                    <input class="edit" type="text" value="{{ task.title }}" />
+                </li>
+                {% endfor %}
+                
+                <li id="complete-all" {%- if remaining < 2 -%}style="display:none"{% endif %}>
+                    <div class="view">
+                        <input type="checkbox" id="complete-all-checkbox"/>
+                        <label class="title">Complete <span class="remaining">{{ remaining }}</span> more tasks</label>
+                    </div>
+                </li>
+            </ul>
+            <footer>
+                Yeoman, Backbone, Lo-dash, Mustache, jQuery + UI, CoffeeScript, Sass, Bourbon, Flask, Heroku.
+            </footer>
         </div>
 
-        <!--[if lt IE 7]>
+        <!--[if lt IE 9]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
+        
+        <!-- fork me on github... if you like -->
+        <a class="hide_mobile" href="https://github.com/lucho870601/tada"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px;" src="http://aral.github.com/fork-me-on-github-retina-ribbons/right-white@2x.png" alt="Fork me on GitHub"></a>
         
         <script type="text/javascript">
             var preloadedTasks = {{ tasks|tojson|safe }};
@@ -53,12 +65,10 @@
         <script id="task-template" type="text/x-mustache-template">
             <div class="view">
               <input class="toggle" type="checkbox" {{#done}}checked="checked"{{/done}} />
-              <label class="title">{{ title }}</label>
-              <span class="draggable"></span>
+              <label class="title" title="click to edit">{{ title }}</label>
+              <span class="draggable" title="drag to change order"></span>
             </div>
             <input class="edit" type="text" value="{{ title }}" />
-        </script>
-        <script id="remaining-template" type="text/x-mustache-template">
         </script>
         {% endraw %}
 </body>

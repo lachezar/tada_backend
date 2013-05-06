@@ -3,6 +3,7 @@ import os
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.restless import APIManager, helpers
+from flask.ext.gzip import Gzip
 
 from operator import attrgetter, itemgetter
 from itertools import imap, izip, ifilterfalse
@@ -22,6 +23,7 @@ else:
     app = Flask(__name__, static_folder='devstatic', template_folder='devtemplates')
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
 
+gzip = Gzip(app) # gzip response and static files
 db = SQLAlchemy(app)
 Task = some_lame_dependancy_here(db)['Task'] # how to get rid of this :/
 manager = APIManager(app, flask_sqlalchemy_db=db)

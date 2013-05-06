@@ -4,3 +4,5 @@ SQLAlchemy
 Flask-SQLAlchemy
 psycopg2
 gunicorn
+-e git+https://github.com/lucho870601/Flask-gzip.git#egg=Flask-gzip
+

@@ -52,13 +52,10 @@
         <!-- fork me on github... if you like -->
         <a class="hide_mobile" href="https://github.com/lucho870601/tada"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px;" src="http://aral.github.com/fork-me-on-github-retina-ribbons/right-white@2x.png" alt="Fork me on GitHub"></a>
         
+        <!-- bootstrap data -->
         <script type="text/javascript">
             var preloadedTasks = {{ tasks|tojson|safe }};
         </script>
-
-        <script src="/static/scripts/vendor.js"></script>
-
-        <script src="/static/scripts/main.js"></script>
         
         <!-- templates -->
         {% raw %}
@@ -71,5 +68,10 @@
             <input class="edit" type="text" value="{{ title }}" />
         </script>
         {% endraw %}
+
+        <script src="/static/scripts/vendor.js"></script>
+
+        <script src="/static/scripts/main.js"></script>
+        
 </body>
 </html>

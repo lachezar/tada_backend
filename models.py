@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 def some_lame_dependancy_here(db):
 
     # how to lose this db.Model dependecny??
@@ -17,4 +20,3 @@ def some_lame_dependancy_here(db):
             return '<Task %r>' % self.title
 
     return {'Task': Task}
-        
